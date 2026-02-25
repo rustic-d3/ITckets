@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <section class="form-section">
             <p>START FOR FREE</p>
             <h1>Create new account<span>.</span></h1>
-            <p class="medium-p">Already A member? <a href="#">Log In</a></p>
+            <p class="medium-p">Already A member? <a href="./login.php">Log In</a></p>
 
             <form action="register.php" class="register-form" method="post">
                 <div class="row">
