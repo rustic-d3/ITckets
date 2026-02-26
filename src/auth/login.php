@@ -4,7 +4,13 @@ ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 require_once __DIR__ . "/../../config/db.php";
 if (isset($_SESSION['uid'])) {
-    $_SESSION['role'] == 'user' ? header("Location: ../home.php") : header("Location: ../admin_dashboard.php");
+    $redirectTo = "../user/user_dashboard.php";
+
+    if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+        $redirectTo = "../admin/admin_dashboard.php";
+    }
+
+    header("Location: " . $redirectTo);
     exit();
 }
 
@@ -44,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 $_SESSION['uid'] = $user['uid'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
-                $user['role'] == 'user' ? header("Location: ../home.php") : header("Location: ../admin_dashboard.php");
+                $user['role'] == 'user' ? header("Location: ../user/user_dashboard") : header("Location: ../admin/admin_dashboard.php");
                 exit();
             } else {
                 $errors['password'] = "Incorrect password. Try again.";
@@ -91,7 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <div class="column col-1 bg-input">
                         <p>Username or Email</p>
                         <div class="input-wrapper">
-                            <input type="text" placeholder="John / John@mail.com" name="username_email">
+                            <input type="text" placeholder="John / John@mail.com" name="username_email"
+                                value="<?php echo htmlspecialchars($_POST['username_email'] ?? ''); ?>">
                             <img src="../../assets/person.png" alt="">
                         </div>
                     </div>
@@ -105,7 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <div class="column col-2 bg-input">
                         <p>Password</p>
                         <div class="input-wrapper">
-                            <input type="password" placeholder="••••••••" name="password">
+                            <input type="password" placeholder="••••••••" name="password"
+                                value="<?php echo htmlspecialchars($_POST['password'] ?? ''); ?>">
                             <img src="../../assets/password.png" alt="">
                         </div>
                         <?php if (!empty($errors['password'])): ?>

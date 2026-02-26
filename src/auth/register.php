@@ -7,7 +7,6 @@ require_once __DIR__ . "/../../config/db.php";
 function clean_input($input)
 {
     $input = trim($input);
-    $input = htmlspecialchars($input);
     $input = stripslashes($input);
     return $input;
 }
@@ -20,17 +19,17 @@ $password_regex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     if (empty($_POST['username'])) {
-        $errors['username'] = "Username" . $_POST['username'] . " can't be empty";
+        $errors['username'] = "Username field is required";
     } elseif (strlen($_POST['username']) < 3) {
         $errors['username'] = "Username should be more than 3 chars";
     }
     if (empty($_POST['email'])) {
-        $errors['email'] = "email can't be empty!";
+        $errors['email'] = "Email field is required";
     } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = "Invalid format for email" . $_POST['email'] . "!";
+        $errors['email'] = "Invalid format for email";
     }
     if (empty($_POST['password'])) {
-        $errors['password'] = "Password field can't be empty!";
+        $errors['password'] = "Password field is required";
     } elseif (strlen($_POST['password']) < 8) {
         $errors['password'] = "Password should be at least 8 chars";
     } elseif (!preg_match($password_regex, $_POST['password']))
@@ -40,15 +39,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         $username = clean_input($_POST['username']);
         $email = clean_input($_POST['email']);
-        $password = clean_input($_POST['password']);
+        $password = $_POST['password'];
         $hashed_pasword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("SELECT uid from users WHERE email = ?");
-        $stmt->bind_param("s", $email);
+        $stmt = $conn->prepare("SELECT uid from users WHERE email = ? or username = ?");
+        $stmt->bind_param("ss", $email, $username);
         $stmt->execute();
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $errors['email'] = "User with this mail already exists";
+            $errors['general'] = "User with this mail or username already exists";
         }
         $stmt->close();
         if (empty($errors)) {
@@ -88,6 +87,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <body>
     <div class="container">
         <section class="form-section">
+            <?php if (!empty($errors['general'])): ?>
+                <div>
+                    <?php echo htmlspecialchars($errors['general']) ?>
+                </div>
+            <?php endif ?>
             <p>START FOR FREE</p>
             <h1>Create new account<span>.</span></h1>
             <p class="medium-p">Already A member? <a href="./login.php">Log In</a></p>
@@ -97,7 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <div class="column col-1 bg-input">
                         <p>Username</p>
                         <div class="input-wrapper">
-                            <input type="text" placeholder="John" name="username">
+                            <input type="text" placeholder="John" name="username"
+                                value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
                             <img src="../../assets/person.png" alt="">
                         </div>
                     </div>
@@ -111,7 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <div class="column col-2 bg-input">
                         <p>Email</p>
                         <div class="input-wrapper">
-                            <input type="email" placeholder="john@example.com" name="email">
+                            <input type="email" placeholder="john@example.com" name="email"
+                                value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                             <img src="../../assets/email.png" alt="">
                         </div>
                         <?php if (!empty($errors['email'])): ?>
