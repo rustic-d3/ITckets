@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../config/db.php";
+include("../../includes/functions.php");
 checkRole($_SESSION['uid'], "admin");
 
 ?>
@@ -15,6 +16,7 @@ checkRole($_SESSION['uid'], "admin");
 
 <body>
     <div>Hello admin</div>
+    <a href="../auth/logout.php">Log Out</a>
 
 </body>
 

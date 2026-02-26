@@ -3,14 +3,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 require_once __DIR__ . "/../../config/db.php";
+include("../../includes/functions.php");
 
-function clean_input($input)
-{
-    $input = trim($input);
-    $input = stripslashes($input);
-    return $input;
-}
 
+redirectIfLoggedIn();
 $errors = [];
 $username = '';
 $email = '';
