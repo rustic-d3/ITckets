@@ -2,6 +2,14 @@
 require_once __DIR__ . "/../../config/db.php";
 include("../../includes/functions.php");
 checkRole($_SESSION['uid'], "admin");
+$user_uid = $_SESSION['uid'] ?? " ";
+if (!empty($user_uid)) {
+    $increment = 1;
+    $stmt = $conn->prepare("  SELECT * FROM users WHERE NOT uid = ? ");
+    $stmt->bind_param("i", $user_uid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+}
 
 ?>
 
@@ -16,11 +24,49 @@ checkRole($_SESSION['uid'], "admin");
     <title>Admin Dashboard</title>
 </head>
 
-<body>
+<body class="  vh-100">
     <?php
     include("../../includes/navbar.php");
     ?>
-    <div class="container-md bg-light">
+    <div class="container-md bg-light vh-100 d-flex justify-content-center align-items-start">
+        <div class="container-sm table-responsive" style="margin-top: 15vh;">
+            <div class="container">
+                <div class="row d-flex justify-content-start">
+                    <div class="display-5 mb-3">
+                        All clients:
+                    </div>
+                </div>
+            </div>
+            <table class="table table-dark table-striped table-hover w-100">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($result->num_rows > 0) {
+                        while ($user = $result->fetch_assoc()) {
+                            echo
+                                "<tr>
+                                                <td> $increment </td>
+                                                <td> {$user['username']}</td>
+                                                <td> {$user['email']} </td>
+                                                <td> {$user['role']} </td>
+                                                <td> {$user['created_at']} </td>
+                                                
+                                    </tr>";
+                            $increment++;
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
 
 
     </div>
