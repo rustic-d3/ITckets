@@ -20,10 +20,10 @@ $role = $_SESSION['role'] ?? " ";
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if ($role == "admin"): ?>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">All clients</a>
+                        <a class="nav-link active" aria-current="page" href="admin_dashboard.php">All clients</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">All tickets</a>
+                        <a class="nav-link" href="admin_dashboard.php?tickets=true">All tickets</a>
                     </li>
                 <?php endif; ?>
             </ul>

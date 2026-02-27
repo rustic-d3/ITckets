@@ -2,13 +2,23 @@
 require_once __DIR__ . "/../../config/db.php";
 include("../../includes/functions.php");
 checkRole($_SESSION['uid'], "admin");
+
+$result;
+$active_table = 'users';
 $user_uid = $_SESSION['uid'] ?? " ";
 if (!empty($user_uid)) {
     $increment = 1;
-    $stmt = $conn->prepare("  SELECT * FROM users WHERE NOT uid = ? ");
-    $stmt->bind_param("i", $user_uid);
-    $stmt->execute();
-    $result = $stmt->get_result();
+
+    if (isset($_GET['tickets']) && $_GET['tickets'] === 'true') {
+        $result = $conn->query("  SELECT subject, description, uid, responsable, status FROM tickets");
+        $active_table = 'tickets';
+    } else {
+        $stmt = $conn->prepare("  SELECT username, email, role, created_at FROM users WHERE NOT uid = ? ");
+        $stmt->bind_param("i", $user_uid);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+    }
 }
 
 ?>
@@ -32,27 +42,35 @@ if (!empty($user_uid)) {
         <div class="container-sm table-responsive" style="margin-top: 15vh;">
             <div class="container">
                 <div class="row d-flex justify-content-start">
-                    <div class="display-5 mb-3">
-                        All clients:
-                    </div>
+                    <?php if ($active_table == "tickets"): ?>
+                        <div class="display-5 mb-3">
+                            All tickets:
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($active_table == "users"): ?>
+                        <div class="display-5 mb-3">
+                            All clients:
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
-            <table class="table table-dark table-striped table-hover w-100">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($result->num_rows > 0) {
-                        while ($user = $result->fetch_assoc()) {
-                            echo
-                                "<tr>
+            <?php if ($active_table === 'users'): ?>
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($result->num_rows > 0) {
+                            while ($user = $result->fetch_assoc()) {
+                                echo
+                                    "<tr>
                                                 <td> $increment </td>
                                                 <td> {$user['username']}</td>
                                                 <td> {$user['email']} </td>
@@ -60,12 +78,47 @@ if (!empty($user_uid)) {
                                                 <td> {$user['created_at']} </td>
                                                 
                                     </tr>";
-                            $increment++;
+                                $increment++;
+                            }
                         }
-                    }
-                    ?>
-                </tbody>
-            </table>
+                        ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+
+            <?php if ($active_table === 'tickets'): ?>
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">User Id</th>
+                            <th scope="col">Responsable</th>
+                            <th scope="col">status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($result->num_rows > 0) {
+                            while ($user = $result->fetch_assoc()) {
+                                echo
+                                    "<tr>
+                                                <td> $increment </td>
+                                                <td> {$user['subject']}</td>
+                                                <td> {$user['description']} </td>
+                                                <td> {$user['uid']} </td>
+                                                <td> {$user['responsable']} </td>
+                                                <td> {$user['status']} </td>
+                                                
+                                    </tr>";
+                                $increment++;
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
         </div>
 
 
