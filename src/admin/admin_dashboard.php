@@ -10,7 +10,7 @@ if (!empty($user_uid)) {
     $increment = 1;
 
     if (isset($_GET['tickets']) && $_GET['tickets'] === 'true') {
-        $result = $conn->query("  SELECT subject, description, uid, responsable, status FROM tickets");
+        $result = $conn->query("  SELECT tid, subject, description, uid, responsable, status FROM tickets");
         $active_table = 'tickets';
     } else {
         $stmt = $conn->prepare("  SELECT username, email, role, created_at FROM users WHERE NOT uid = ? ");
@@ -77,6 +77,7 @@ if (!empty($user_uid)) {
                                                 <td> {$user['role']} </td>
                                                 <td> {$user['created_at']} </td>
                                                 
+                                                
                                     </tr>";
                                 $increment++;
                             }
@@ -96,20 +97,22 @@ if (!empty($user_uid)) {
                             <th scope="col">User Id</th>
                             <th scope="col">Responsable</th>
                             <th scope="col">status</th>
+                            <th scope="col">actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         if ($result->num_rows > 0) {
-                            while ($user = $result->fetch_assoc()) {
+                            while ($ticket = $result->fetch_assoc()) {
                                 echo
                                     "<tr>
                                                 <td> $increment </td>
-                                                <td> {$user['subject']}</td>
-                                                <td> {$user['description']} </td>
-                                                <td> {$user['uid']} </td>
-                                                <td> {$user['responsable']} </td>
-                                                <td> {$user['status']} </td>
+                                                <td> {$ticket['subject']}</td>
+                                                <td> {$ticket['description']} </td>
+                                                <td> {$ticket['uid']} </td>
+                                                <td> {$ticket['responsable']} </td>
+                                                <td> {$ticket['status']} </td>
+                                                <td class='text-center'> <a class='btn btn-outline-light' href='./view_ticket.php?ticket_id={$ticket['tid']}'>View</a> </td>
                                                 
                                     </tr>";
                                 $increment++;
