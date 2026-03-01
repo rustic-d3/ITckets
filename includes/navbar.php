@@ -7,7 +7,7 @@ $role = $_SESSION['role'] ?? " ";
 <nav class="navbar navbar-expand-lg" style="background-color: #3a3f50;" data-bs-theme="dark">
     <div class="container-fluid text-primary">
         <?php if ($role == "admin"): ?>
-            <a class="navbar-brand" href="#">Admin Dashboard</a>
+            <a class="navbar-brand" href="#" style="pointer-events: none;">Admin Dashboard</a>
         <?php endif; ?>
         <?php if ($role == "user"): ?>
             <a class="navbar-brand" href="#">User Dashboard</a>
