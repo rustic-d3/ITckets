@@ -1,5 +1,31 @@
 <?php
 $role = $_SESSION['role'] ?? " ";
+if ($_SERVER['REQUEST_METHOD'] === "GET") {
+    if (isset($_GET['tickets']) and $_GET['tickets'] === "true") {
+        $users_link = '<a class="nav-link" aria-current="page" href="admin_dashboard.php">All clients</a>';
+        $tickets_link = '<a class="nav-link active" aria-current="page" href="admin_dashboard.php?tickets=true">All clients</a>';
+        $to_solve_link = '<a class="nav-link" href="admin_dashboard.php?tickets_to_solve=true">Tickets to solve</a>';
+        $closed_link = '<a class="nav-link" href="admin_dashboard.php?closed_tickets=true">Tickets to solve</a>';
+    } elseif (isset($_GET['tickets_to_solve']) and $_GET['tickets_to_solve'] === "true") {
+        $users_link = '<a class="nav-link" aria-current="page" href="admin_dashboard.php">All clients</a>';
+        $tickets_link = '<a class="nav-link" aria-current="page" href="admin_dashboard.php?tickets=true">All clients</a>';
+        $to_solve_link = '<a class="nav-link active" href="admin_dashboard.php?tickets_to_solve=true">Tickets to solve</a>';
+        $closed_link = '<a class="nav-link" href="admin_dashboard.php?closed_tickets=true">Tickets to solve</a>';
+
+    } elseif (isset($_GET['closed_tickets']) and $_GET['closed_tickets'] === "true") {
+        $users_link = '<a class="nav-link" aria-current="page" href="admin_dashboard.php">All clients</a>';
+        $tickets_link = '<a class="nav-link" aria-current="page" href="admin_dashboard.php?tickets=true">All clients</a>';
+        $to_solve_link = '<a class="nav-link" href="admin_dashboard.php?tickets_to_solve=true">Tickets to solve</a>';
+        $closed_link = '<a class="nav-link active" href="admin_dashboard.php?closed_tickets=true">Tickets to solve</a>';
+
+    } else {
+        $users_link = '<a class="nav-link active" aria-current="page" href="admin_dashboard.php">All clients</a>';
+        $tickets_link = '<a class="nav-link" aria-current="page" href="admin_dashboard.php?tickets=true">All clients</a>';
+        $to_solve_link = '<a class="nav-link" href="admin_dashboard.php?tickets_to_solve=true">Tickets to solve</a>';
+        $closed_link = '<a class="nav-link" href="admin_dashboard.php?closed_tickets=true">Tickets to solve</a>';
+    }
+
+}
 
 
 ?>
@@ -20,16 +46,16 @@ $role = $_SESSION['role'] ?? " ";
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if ($role == "admin"): ?>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="admin_dashboard.php">All clients</a>
+                        <?php echo $users_link ?>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin_dashboard.php?tickets=true">All tickets</a>
+                        <?php echo $tickets_link ?>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin_dashboard.php?tickets_to_solve=true">Tickets to solve</a>
+                        <?php echo $to_solve_link ?>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin_dashboard.php?closed_tickets=true">Closed Tickets</a>
+                        <?php echo $closed_link ?>
                     </li>
                 <?php endif; ?>
             </ul>

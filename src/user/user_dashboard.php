@@ -40,19 +40,19 @@ if (!empty($user_uid)) {
     ?>
     <div class="container-md bg-light vh-100 d-flex justify-content-center align-items-start">
         <div class="container-sm table-responsive" style="margin-top: 15vh;">
-            <?php if ($result->num_rows > 0): ?>
-                <div class="container d-flex justify-content-between">
 
-                    <div class="display-5 mb-3">
-                        My tickets:
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <a href='./add_ticket.php' class='btn btn-dark '> Add</a>
-                    </div>
+            <div class="container d-flex justify-content-between">
 
-
+                <div class="display-5 mb-3">
+                    My tickets:
+                </div>
+                <div class="d-flex align-items-center">
+                    <a href='./add_ticket.php' class='btn btn-dark '> Add</a>
                 </div>
 
+
+            </div>
+            <?php if ($result->num_rows > 0): ?>
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>
