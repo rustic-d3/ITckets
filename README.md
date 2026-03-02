@@ -2,6 +2,8 @@
 
 ITckets is a simple IT support ticket system built with PHP and MySQL/MariaDB. It allows users to create, view, and manage their support requests, while providing an interface for administrators to track, assign, and resolve tickets.
 
+## The application is online at: https://iticket.42web.io/src/auth/register.php
+
 ## Features
 
 ### User Features
@@ -24,8 +26,7 @@ ITckets is a simple IT support ticket system built with PHP and MySQL/MariaDB. I
 *   **User Management:** View a list of all registered clients.
 
 ## Prerequisites
-
-To run ITckets, you will need:
+To run ITckets locally, you will need:
 
 *   **PHP** (Version 8.2 or higher recommended)
 *   **MySQL or MariaDB** database server
