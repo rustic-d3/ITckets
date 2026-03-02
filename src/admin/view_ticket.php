@@ -62,7 +62,7 @@ if (isset($_GET['ticket_id'])) {
                 <h5 class="card-title"> <?php echo $db_ticket['subject'] ?></h5>
                 <p class="card-text"><?php echo $db_ticket['description'] ?></p>
                 <?php if (empty($db_ticket['admin_responsable'])): ?>
-                    <a href="#" class="btn btn-primary">Solve</a>
+                    <a href="./solve_ticket.php?tid=<?php echo $_GET['ticket_id'] ?>" class="btn btn-primary">Solve</a>
                 <?php endif; ?>
                 <?php if (!empty($db_ticket['admin_responsable'])): ?>
                     <a href="#" class="btn btn-primary" style="pointer-events: none;">Responsable:
