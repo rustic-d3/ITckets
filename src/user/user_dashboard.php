@@ -27,6 +27,8 @@ if (!empty($user_uid)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=cancel" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>User Dashboard</title>
@@ -75,7 +77,11 @@ if (!empty($user_uid)) {
                                                 <td> {$ticket['responsable']} </td>
                                                 <td> {$ticket['status']} </td>
                                                 <td class='text-center' > 
-                                                    <a class='btn btn-outline-light '> Cancel</a>
+                                                    <a href='cancel_ticket.php?tid={$ticket['tid']}' class='text-white link-offset-2'> 
+                                                    <span class='material-symbols-outlined'>
+                                                        cancel
+                                                    </span>
+                                                    </a>
                                                 </td>
                                                 
                                                 

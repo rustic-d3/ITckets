@@ -10,7 +10,7 @@ $role = $_SESSION['role'] ?? " ";
             <a class="navbar-brand" href="#" style="pointer-events: none;">Admin Dashboard</a>
         <?php endif; ?>
         <?php if ($role == "user"): ?>
-            <a class="navbar-brand" href="#">User Dashboard</a>
+            <a class="navbar-brand" href="./user_dashboard.php">User Dashboard</a>
         <?php endif; ?>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

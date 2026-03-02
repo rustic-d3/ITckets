@@ -4,14 +4,26 @@ include("../../includes/functions.php");
 checkRole($_SESSION['uid'], "admin");
 
 if (isset($_GET['ticket_id'])) {
-    $stmt = $conn->prepare("SELECT t.*, u.username as creator_username, r.username as admin_responsable FROM tickets t 
-                                    JOIN users u on u.uid = t.uid
-                                    JOIN users r on r.uid = t.responsable
-                                    WHERE t.tid = ?");
+    $stmt = $conn->prepare("SELECT tid from tickets where tid = ?");
     $stmt->bind_param("i", $_GET['ticket_id']);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $db_ticket = $result->fetch_assoc();
+    $stmt->store_result();
+    if ($stmt->num_rows === 1) {
+        $stmt = $conn->prepare("SELECT t.*, u.username as creator_username, r.username as admin_responsable FROM tickets t 
+                                    JOIN users u on u.uid = t.uid
+                                    LEFT JOIN users r on r.uid = t.responsable
+                                    WHERE t.tid = ?");
+        $stmt->bind_param("i", $_GET['ticket_id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $db_ticket = $result->fetch_assoc();
+
+    } else {
+        header("HTTP/1.1 404 Not found");
+        echo "Ticket not found";
+        exit;
+    }
+
 
 }
 
