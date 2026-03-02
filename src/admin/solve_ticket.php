@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             }
 
         } else {
-            header("HTTP/1.1 404 Not found");
+            header("Location: ../../includes/404.php");
             echo "Ticket not found";
             exit;
         }

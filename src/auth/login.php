@@ -54,64 +54,64 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cascadia+Mono:ital,wght@0,200..700;1,200..700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../../styles/register.css">
-
-    <title>Register</title>
-
+    <title>Login | Support System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container">
-        <section class="form-section">
-            <h1>Log in<span>.</span></h1>
-            <p class="medium-p">Don't have an account? <a href="./register.php">Register</a></p>
+<body class="bg-body-tertiary">
 
-            <form action="login.php" class="register-form" method="post">
-                <div class="row">
-                    <div class="column col-1 bg-input">
-                        <p>Username or Email</p>
-                        <div class="input-wrapper">
-                            <input type="text" placeholder="John / John@mail.com" name="username_email"
-                                value="<?php echo htmlspecialchars($_POST['username_email'] ?? ''); ?>">
-                            <img src="../../assets/person.png" alt="">
-                        </div>
-                    </div>
-                    <?php if (!empty($errors['username_email'])): ?>
-                        <div><?php echo htmlspecialchars($errors['username_email']) ?></div>
-                    <?php endif ?>
+    <div class="container vh-100 d-flex align-items-center justify-content-center">
+        <div class="row w-100 justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
 
-                </div>
+                <div class="card border-0 shadow-lg p-3">
+                    <div class="card-body">
+                        <h1 class="h3 mb-1 fw-bold">Log in.</h1>
+                        <p class="text-secondary mb-4 small">Don't have an account? <a href="./register.php"
+                                class="text-light text-decoration-none">Register</a></p>
 
-                <div class="row">
-                    <div class="column col-2 bg-input">
-                        <p>Password</p>
-                        <div class="input-wrapper">
-                            <input type="password" placeholder="••••••••" name="password">
-                            <img src="../../assets/password.png" alt="">
-                        </div>
-                        <?php if (!empty($errors['password'])): ?>
-                            <div>
-                                <?php echo htmlspecialchars($errors['password']) ?>
+                        <form action="login.php" method="POST">
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold text-secondary">Username or Email</label>
+                                <input type="text" name="username_email"
+                                    class="form-control form-control-lg <?php echo isset($errors['username_email']) ? 'is-invalid' : ''; ?>"
+                                    placeholder="John / John@mail.com"
+                                    value="<?php echo htmlspecialchars($_POST['username_email'] ?? ''); ?>">
+                                <?php if (isset($errors['username_email'])): ?>
+                                    <div class="invalid-feedback"><?php echo $errors['username_email']; ?></div>
+                                <?php endif; ?>
                             </div>
-                        <?php endif ?>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-semibold text-secondary">Password</label>
+                                <input type="password" name="password"
+                                    class="form-control form-control-lg <?php echo isset($errors['password']) ? 'is-invalid' : ''; ?>"
+                                    placeholder="••••••••">
+                                <?php if (isset($errors['password'])): ?>
+                                    <div class="invalid-feedback"><?php echo $errors['password']; ?></div>
+                                <?php endif; ?>
+                            </div>
+
+                            <button type="submit" class="btn btn-outline-light btn-lg w-100 shadow-sm fw-bold">Log
+                                in</button>
+                        </form>
                     </div>
                 </div>
 
-                <button type="submit">Log in</button>
-            </form>
-        </section>
-
+                <div class="text-center mt-4 text-secondary small">
+                    &copy; 2026 ITicket
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

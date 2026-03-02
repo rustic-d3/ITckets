@@ -19,7 +19,7 @@ if (isset($_GET['ticket_id'])) {
         $db_ticket = $result->fetch_assoc();
 
     } else {
-        header("HTTP/1.1 404 Not found");
+        header("Location: ../../includes/404.php");
         echo "Ticket not found";
         exit;
     }
