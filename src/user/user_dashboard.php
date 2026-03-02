@@ -40,33 +40,34 @@ if (!empty($user_uid)) {
     ?>
     <div class="container-md bg-light vh-100 d-flex justify-content-center align-items-start">
         <div class="container-sm table-responsive" style="margin-top: 15vh;">
-            <div class="container d-flex justify-content-between">
+            <?php if ($result->num_rows > 0): ?>
+                <div class="container d-flex justify-content-between">
 
-                <div class="display-5 mb-3">
-                    My tickets:
+                    <div class="display-5 mb-3">
+                        My tickets:
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <a href='./add_ticket.php' class='btn btn-dark '> Add</a>
+                    </div>
+
+
                 </div>
-                <div class="d-flex align-items-center">
-                    <a href='./add_ticket.php' class='btn btn-dark '> Add</a>
-                </div>
 
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Created by</th>
+                            <th scope="col">responsible</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
 
-            </div>
-
-            <table class="table table-dark table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Created by</th>
-                        <th scope="col">responsible</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Operations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($result->num_rows > 0) {
                         while ($ticket = $result->fetch_assoc()) {
                             echo
                                 "<tr>
@@ -88,10 +89,16 @@ if (!empty($user_uid)) {
                                     </tr>";
                             $increment++;
                         }
-                    }
-                    ?>
-                </tbody>
-            </table>
+
+                        ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+            <?php if ($result->num_rows === 0): ?>
+                <p class="display-5">No current data</p>
+            <?php endif; ?>
+
+
 
             </tbody>
             </table>

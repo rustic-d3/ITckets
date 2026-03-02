@@ -65,8 +65,15 @@ if (isset($_GET['ticket_id'])) {
                     <?php if (empty($db_ticket['admin_responsible'])): ?>
                         <a href="./solve_ticket.php?tid=<?php echo $_GET['ticket_id'] ?>" class="btn btn-primary">Solve</a>
                     <?php endif; ?>
-                    <?php if (!empty($db_ticket['admin_responsible'])): ?>
+                    <?php if (!empty($db_ticket['admin_responsible']) && $db_ticket['status'] != "closed"): ?>
                         <a href="#" class="btn btn-primary" style="pointer-events: none;">Responsible:
+                            <?php echo "{$db_ticket['admin_responsible']} ({$db_ticket['responsible']})" ?></a>
+                        <?php if ($db_ticket['responsible'] == $_SESSION['uid'] && $db_ticket['status'] != "closed"): ?>
+                            <a href="close_ticket.php?tid=<?php echo $db_ticket['tid'] ?>" class="btn btn-success">Done</a>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if ($db_ticket['status'] == "closed" && !empty($db_ticket['admin_responsible'])): ?>
+                        <a href="#" class="btn btn-primary" style="pointer-events: none;">Solved by:
                             <?php echo "{$db_ticket['admin_responsible']} ({$db_ticket['responsible']})" ?></a>
                         <?php if ($db_ticket['responsible'] == $_SESSION['uid'] && $db_ticket['status'] != "closed"): ?>
                             <a href="close_ticket.php?tid=<?php echo $db_ticket['tid'] ?>" class="btn btn-success">Done</a>

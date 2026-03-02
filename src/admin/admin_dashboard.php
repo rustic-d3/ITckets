@@ -53,44 +53,46 @@ if (!empty($user_uid)) {
     ?>
     <div class="container-md bg-light vh-100 d-flex justify-content-center align-items-start">
         <div class="container-sm table-responsive" style="margin-top: 15vh;">
-            <div class="container">
-                <div class="row d-flex justify-content-start">
-                    <?php if ($active_table == "tickets"): ?>
-                        <div class="display-5 mb-3">
-                            All tickets:
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($active_table == "tickets_to_solve"): ?>
-                        <div class="display-5 mb-3">
-                            Tickets to solve:
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($active_table == "closed_tickets"): ?>
-                        <div class="display-5 mb-3">
-                            Closed Tickets:
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($active_table == "users"): ?>
-                        <div class="display-5 mb-3">
-                            All clients:
-                        </div>
-                    <?php endif; ?>
+            <?php if ($result->num_rows > 0): ?>
+                <div class="container">
+
+                    <div class="row d-flex justify-content-start">
+                        <?php if ($active_table == "tickets"): ?>
+                            <div class="display-5 mb-3">
+                                All tickets:
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($active_table == "tickets_to_solve"): ?>
+                            <div class="display-5 mb-3">
+                                Tickets to solve:
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($active_table == "closed_tickets"): ?>
+                            <div class="display-5 mb-3">
+                                Closed Tickets:
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($active_table == "users"): ?>
+                            <div class="display-5 mb-3">
+                                All clients:
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
-            <?php if ($active_table === 'users'): ?>
-                <table class="table table-dark table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Created At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($result->num_rows > 0) {
+                <?php if ($active_table === 'users'): ?>
+                    <table class="table table-dark table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
                             while ($user = $result->fetch_assoc()) {
                                 echo
                                     "<tr>
@@ -104,28 +106,28 @@ if (!empty($user_uid)) {
                                     </tr>";
                                 $increment++;
                             }
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
 
-            <?php if ($active_table === 'tickets'): ?>
-                <table class="table table-dark table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Subject</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">User Id</th>
-                            <th scope="col">responsible</th>
-                            <th scope="col">status</th>
-                            <th scope="col">actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($result->num_rows > 0) {
+                            ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+
+                <?php if ($active_table === 'tickets'): ?>
+                    <table class="table table-dark table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">User Id</th>
+                                <th scope="col">responsible</th>
+                                <th scope="col">status</th>
+                                <th scope="col">actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
                             while ($ticket = $result->fetch_assoc()) {
                                 echo
                                     "<tr>
@@ -140,80 +142,84 @@ if (!empty($user_uid)) {
                                     </tr>";
                                 $increment++;
                             }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+
+                            ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+                <?php if ($active_table === 'tickets_to_solve'): ?>
+                    <table class="table table-dark table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">User Id</th>
+                                <th scope="col">responsible</th>
+                                <th scope="col">status</th>
+                                <th scope="col">actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+                            while ($ticket = $result->fetch_assoc()) {
+                                echo
+                                    "<tr>
+                                                <td> $increment </td>
+                                                <td> {$ticket['subject']}</td>
+                                                <td> {$ticket['description']} </td>
+                                                <td> {$ticket['uid']} </td>
+                                                <td> {$ticket['responsible']} </td>
+                                                <td> {$ticket['status']} </td>
+                                                <td class='text-center'> <a class='btn btn-outline-light' href='./view_ticket.php?ticket_id={$ticket['tid']}'>View</a> </td>
+                                                
+                                    </tr>";
+                                $increment++;
+                            }
+
+                            ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+                <?php if ($active_table === 'closed_tickets'): ?>
+                    <table class="table table-dark table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">User Id</th>
+                                <th scope="col">responsible</th>
+                                <th scope="col">status</th>
+                                <th scope="col">actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+                            while ($ticket = $result->fetch_assoc()) {
+                                echo
+                                    "<tr>
+                                                <td> $increment </td>
+                                                <td> {$ticket['subject']}</td>
+                                                <td> {$ticket['description']} </td>
+                                                <td> {$ticket['uid']} </td>
+                                                <td> {$ticket['responsible']} </td>
+                                                <td> {$ticket['status']} </td>
+                                                <td class='text-center'> <a class='btn btn-outline-light' href='./view_ticket.php?ticket_id={$ticket['tid']}'>View</a> </td>
+                                                
+                                    </tr>";
+                                $increment++;
+                            }
+
+                            ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
             <?php endif; ?>
-            <?php if ($active_table === 'tickets_to_solve'): ?>
-                <table class="table table-dark table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Subject</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">User Id</th>
-                            <th scope="col">responsible</th>
-                            <th scope="col">status</th>
-                            <th scope="col">actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($result->num_rows > 0) {
-                            while ($ticket = $result->fetch_assoc()) {
-                                echo
-                                    "<tr>
-                                                <td> $increment </td>
-                                                <td> {$ticket['subject']}</td>
-                                                <td> {$ticket['description']} </td>
-                                                <td> {$ticket['uid']} </td>
-                                                <td> {$ticket['responsible']} </td>
-                                                <td> {$ticket['status']} </td>
-                                                <td class='text-center'> <a class='btn btn-outline-light' href='./view_ticket.php?ticket_id={$ticket['tid']}'>View</a> </td>
-                                                
-                                    </tr>";
-                                $increment++;
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
-            <?php if ($active_table === 'closed_tickets'): ?>
-                <table class="table table-dark table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Subject</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">User Id</th>
-                            <th scope="col">responsible</th>
-                            <th scope="col">status</th>
-                            <th scope="col">actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($result->num_rows > 0) {
-                            while ($ticket = $result->fetch_assoc()) {
-                                echo
-                                    "<tr>
-                                                <td> $increment </td>
-                                                <td> {$ticket['subject']}</td>
-                                                <td> {$ticket['description']} </td>
-                                                <td> {$ticket['uid']} </td>
-                                                <td> {$ticket['responsible']} </td>
-                                                <td> {$ticket['status']} </td>
-                                                <td class='text-center'> <a class='btn btn-outline-light' href='./view_ticket.php?ticket_id={$ticket['tid']}'>View</a> </td>
-                                                
-                                    </tr>";
-                                $increment++;
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+            <?php if ($result->num_rows === 0): ?>
+                <p class="display-5">No current data</p>
             <?php endif; ?>
         </div>
 
