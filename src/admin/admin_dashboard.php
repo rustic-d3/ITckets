@@ -12,6 +12,13 @@ if (!empty($user_uid)) {
     if (isset($_GET['tickets']) && $_GET['tickets'] === 'true') {
         $result = $conn->query("  SELECT tid, subject, description, uid, responsable, status FROM tickets");
         $active_table = 'tickets';
+    } elseif (isset($_GET['tickets_to_solve']) && $_GET['tickets_to_solve'] === 'true') {
+        $stmt = $conn->prepare("  SELECT tid, subject, description, uid, responsable, status FROM ticketss WHERE responsable = ? ");
+        $stmt->bind_param("i", $user_uid);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        $active_table = 'tickets_to_solve';
     } else {
         $stmt = $conn->prepare("  SELECT username, email, role, created_at FROM users WHERE NOT uid = ? ");
         $stmt->bind_param("i", $user_uid);
@@ -45,6 +52,11 @@ if (!empty($user_uid)) {
                     <?php if ($active_table == "tickets"): ?>
                         <div class="display-5 mb-3">
                             All tickets:
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($active_table == "tickets_to_solve"): ?>
+                        <div class="display-5 mb-3">
+                            Tickets to solve:
                         </div>
                     <?php endif; ?>
                     <?php if ($active_table == "users"): ?>
@@ -88,6 +100,41 @@ if (!empty($user_uid)) {
             <?php endif; ?>
 
             <?php if ($active_table === 'tickets'): ?>
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">User Id</th>
+                            <th scope="col">Responsable</th>
+                            <th scope="col">status</th>
+                            <th scope="col">actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($result->num_rows > 0) {
+                            while ($ticket = $result->fetch_assoc()) {
+                                echo
+                                    "<tr>
+                                                <td> $increment </td>
+                                                <td> {$ticket['subject']}</td>
+                                                <td> {$ticket['description']} </td>
+                                                <td> {$ticket['uid']} </td>
+                                                <td> {$ticket['responsable']} </td>
+                                                <td> {$ticket['status']} </td>
+                                                <td class='text-center'> <a class='btn btn-outline-light' href='./view_ticket.php?ticket_id={$ticket['tid']}'>View</a> </td>
+                                                
+                                    </tr>";
+                                $increment++;
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+            <?php if ($active_table === 'tickets_to_solve'): ?>
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>

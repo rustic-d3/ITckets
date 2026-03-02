@@ -25,6 +25,9 @@ $role = $_SESSION['role'] ?? " ";
                     <li class="nav-item">
                         <a class="nav-link" href="admin_dashboard.php?tickets=true">All tickets</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin_dashboard.php?tickets_to_solve=true">Tickets to solve</a>
+                    </li>
                 <?php endif; ?>
             </ul>
             <a href="../auth/logout.php" class="btn  btn-outline-light">Log Out</a>
