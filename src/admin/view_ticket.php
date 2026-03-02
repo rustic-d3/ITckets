@@ -67,6 +67,9 @@ if (isset($_GET['ticket_id'])) {
                 <?php if (!empty($db_ticket['admin_responsable'])): ?>
                     <a href="#" class="btn btn-primary" style="pointer-events: none;">Responsable:
                         <?php echo "{$db_ticket['admin_responsable']} ({$db_ticket['responsable']})" ?></a>
+                    <?php if ($db_ticket['admin_responsable'] === $_SESSION['uid']): ?>
+                        <a href="close_ticket.php?tid=<?php echo $db_ticket['tid'] ?>" class="btn btn-succes">Done</a>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>

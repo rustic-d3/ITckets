@@ -13,7 +13,7 @@ if (!empty($user_uid)) {
         $result = $conn->query("  SELECT tid, subject, description, uid, responsable, status FROM tickets");
         $active_table = 'tickets';
     } elseif (isset($_GET['tickets_to_solve']) && $_GET['tickets_to_solve'] === 'true') {
-        $stmt = $conn->prepare("  SELECT tid, subject, description, uid, responsable, status FROM ticketss WHERE responsable = ? ");
+        $stmt = $conn->prepare("  SELECT tid, subject, description, uid, responsable, status FROM tickets WHERE responsable = ? ");
         $stmt->bind_param("i", $user_uid);
         $stmt->execute();
         $result = $stmt->get_result();
