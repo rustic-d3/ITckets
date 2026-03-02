@@ -9,7 +9,7 @@ if (!empty($user_uid)) {
     $increment = 1;
 
 
-    $stms = $conn->prepare("  SELECT tid, subject, description, uid, responsable, status FROM tickets WHERE uid=? ");
+    $stms = $conn->prepare("  SELECT tid, subject, description, uid, responsible, status FROM tickets WHERE uid=? ");
     $stms->bind_param("i", $_SESSION['uid']);
     $stms->execute();
     $result = $stms->get_result();
@@ -59,7 +59,7 @@ if (!empty($user_uid)) {
                         <th scope="col">Subject</th>
                         <th scope="col">Description</th>
                         <th scope="col">Created by</th>
-                        <th scope="col">Responsable</th>
+                        <th scope="col">responsible</th>
                         <th scope="col">Status</th>
                         <th scope="col">Operations</th>
                     </tr>
@@ -74,7 +74,7 @@ if (!empty($user_uid)) {
                                                 <td> {$ticket['subject']}</td>
                                                 <td> {$ticket['description']} </td>
                                                 <td> {$ticket['uid']} </td>
-                                                <td> {$ticket['responsable']} </td>
+                                                <td> {$ticket['responsible']} </td>
                                                 <td> {$ticket['status']} </td>
                                                 <td class='text-center' > 
                                                     <a href='cancel_ticket.php?tid={$ticket['tid']}' class='text-white link-offset-2'> 

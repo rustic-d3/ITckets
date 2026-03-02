@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         $stmt->execute();
         $stmt->store_result();
         if ($stmt->num_rows === 1) {
-            $stmt = $conn->prepare("UPDATE tickets SET responsable = ?, status='pending' WHERE tid = ?");
+            $stmt = $conn->prepare("UPDATE tickets SET responsible = ?, status='pending' WHERE tid = ?");
             $stmt->bind_param("ii", $_SESSION["uid"], $_GET["tid"]);
             if ($stmt->execute()) {
                 header("Location: admin_dashboard.php?tickets=true");

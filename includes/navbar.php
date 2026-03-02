@@ -4,7 +4,7 @@ $role = $_SESSION['role'] ?? " ";
 
 ?>
 
-<nav class="navbar navbar-expand-lg" style="background-color: #3a3f50;" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-fluid text-primary">
         <?php if ($role == "admin"): ?>
             <a class="navbar-brand" href="#" style="pointer-events: none;">Admin Dashboard</a>
@@ -27,6 +27,9 @@ $role = $_SESSION['role'] ?? " ";
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="admin_dashboard.php?tickets_to_solve=true">Tickets to solve</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin_dashboard.php?closed_tickets=true">Closed Tickets</a>
                     </li>
                 <?php endif; ?>
             </ul>

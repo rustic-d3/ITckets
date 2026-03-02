@@ -9,9 +9,9 @@ if (isset($_GET['ticket_id'])) {
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows === 1) {
-        $stmt = $conn->prepare("SELECT t.*, u.username as creator_username, r.username as admin_responsable FROM tickets t 
+        $stmt = $conn->prepare("SELECT t.*, u.username as creator_username, r.username as admin_responsible FROM tickets t 
                                     JOIN users u on u.uid = t.uid
-                                    LEFT JOIN users r on r.uid = t.responsable
+                                    LEFT JOIN users r on r.uid = t.responsible
                                     WHERE t.tid = ?");
         $stmt->bind_param("i", $_GET['ticket_id']);
         $stmt->execute();
@@ -48,10 +48,10 @@ if (isset($_GET['ticket_id'])) {
             <h5 class="card-header justify-content-between d-flex w-100 p-3">
                 <div>User id: <?php echo "{$db_ticket['creator_username']} ({$db_ticket['uid']})" ?></div>
                 <?php if ($db_ticket['status'] === "open"): ?>
-                    <div>Ticket status: <span class="badge text-bg-success"><?php echo $db_ticket['status'] ?></span></div>
+                    <div>Ticket status: <span class="badge text-bg-danger"><?php echo $db_ticket['status'] ?></span></div>
                 <?php endif; ?>
                 <?php if ($db_ticket['status'] === "closed"): ?>
-                    <div>Ticket status: <span class="badge text-bg-danger"><?php echo $db_ticket['status'] ?></span></div>
+                    <div>Ticket status: <span class="badge text-bg-success"><?php echo $db_ticket['status'] ?></span></div>
                 <?php endif; ?>
                 <?php if ($db_ticket['status'] === "pending"): ?>
                     <div>Ticket status: <span class="badge text-bg-warning"><?php echo $db_ticket['status'] ?></span></div>
@@ -61,16 +61,19 @@ if (isset($_GET['ticket_id'])) {
             <div class="card-body">
                 <h5 class="card-title"> <?php echo $db_ticket['subject'] ?></h5>
                 <p class="card-text"><?php echo $db_ticket['description'] ?></p>
-                <?php if (empty($db_ticket['admin_responsable'])): ?>
-                    <a href="./solve_ticket.php?tid=<?php echo $_GET['ticket_id'] ?>" class="btn btn-primary">Solve</a>
-                <?php endif; ?>
-                <?php if (!empty($db_ticket['admin_responsable'])): ?>
-                    <a href="#" class="btn btn-primary" style="pointer-events: none;">Responsable:
-                        <?php echo "{$db_ticket['admin_responsable']} ({$db_ticket['responsable']})" ?></a>
-                    <?php if ($db_ticket['admin_responsable'] === $_SESSION['uid']): ?>
-                        <a href="close_ticket.php?tid=<?php echo $db_ticket['tid'] ?>" class="btn btn-succes">Done</a>
+                <div class="container d-flex justify-content-between">
+                    <?php if (empty($db_ticket['admin_responsible'])): ?>
+                        <a href="./solve_ticket.php?tid=<?php echo $_GET['ticket_id'] ?>" class="btn btn-primary">Solve</a>
                     <?php endif; ?>
-                <?php endif; ?>
+                    <?php if (!empty($db_ticket['admin_responsible'])): ?>
+                        <a href="#" class="btn btn-primary" style="pointer-events: none;">Responsible:
+                            <?php echo "{$db_ticket['admin_responsible']} ({$db_ticket['responsible']})" ?></a>
+                        <?php if ($db_ticket['responsible'] == $_SESSION['uid'] && $db_ticket['status'] != "closed"): ?>
+                            <a href="close_ticket.php?tid=<?php echo $db_ticket['tid'] ?>" class="btn btn-success">Done</a>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+
             </div>
         </div>
     </div>
